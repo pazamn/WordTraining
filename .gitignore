@@ -245,3 +245,4 @@ ModelManifest.xml
 .fake/
 /_Debug/WordTraining.vshost.exe
 /_Debug
+/_Release
