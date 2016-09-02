@@ -1,0 +1,200 @@
+﻿<Window x:Class="WordTraining.Windows.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Settings" Width="800" Height="600" WindowStartupLocation="CenterScreen">
+    
+    <Window.Resources>
+        
+    </Window.Resources>
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="105"/>
+        </Grid.ColumnDefinitions>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="35"/>
+        </Grid.RowDefinitions>
+
+        <TabControl Name="SettingsTabControl" Grid.Row="0" Grid.ColumnSpan="10" SelectionChanged="TabControlSelectionChanged">
+            <TabItem Name="DictionariesListTabItem" Header="Dictionaries" FontSize="14">
+                <StackPanel Orientation="Vertical">
+                    <DataGrid Name="DictionariesDataGrid" AutoGenerateColumns="False" ItemsSource="{Binding}" 
+                              CanUserAddRows="False"  CanUserResizeRows="False" CanUserDeleteRows="False" 
+                              AlternatingRowBackground="OldLace" BorderThickness="0" ColumnWidth="*" 
+                              ColumnHeaderHeight="30" RowHeaderWidth="0" SelectionMode="Single" SelectionUnit="FullRow" 
+                              GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="DarkGray">
+                        
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="Dictionary"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.HeaderTemplate>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Name}" FontSize="16" Margin="4 4 4 4">
+                                            <TextBlock.ContextMenu>
+                                                <ContextMenu>
+                                                    <MenuItem Header="Rename..." Click="RenameDictionaryMenuItemClick"/>
+                                                    <Separator/>
+                                                    <MenuItem Header="Remove..." Click="RemoveDictionaryMouseLeftButtonUp"/>
+                                                </ContextMenu>
+                                            </TextBlock.ContextMenu>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Width="52">
+                                <DataGridTemplateColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="Enabled"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.HeaderTemplate>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding Enabled, Mode=TwoWay}" Foreground="Black" Margin="18 8 4 4" Click="EnableDictionaryCheckBoxClick"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Width="100">
+                                <DataGridTemplateColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="Edit"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.HeaderTemplate>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Cursor="Hand" Margin="4 4 4 4" MouseLeftButtonUp="EditDictionaryItemClick">
+                                            <TextBlock Text="Edit dictionary" Foreground="SkyBlue" FontSize="14" TextDecorations="Underline"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Name="DictionarySettingsTabItem" Header="Dictionary settings" Visibility="Hidden">
+                <DataGrid Name="WordsDataGrid" AutoGenerateColumns="False" ItemsSource="{Binding}" 
+                          CanUserAddRows="True"  CanUserResizeRows="False" SelectionMode="Single" SelectionUnit="FullRow" 
+                          BorderThickness="0" ColumnWidth="*" ColumnHeaderHeight="30" 
+                          AddingNewItem="WordsDataGridAddingNewItem" AlternatingRowBackground="OldLace"
+                          GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="DarkGray">
+                    <DataGrid.RowHeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel Width="36" Height="24" Background="Transparent" VerticalAlignment="Center">
+                                <StackPanel.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Remove word..." Click="OnRemoveWordMenuItemClick"/>
+                                    </ContextMenu>
+                                </StackPanel.ContextMenu>
+                                <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type DataGridRow}}, Path=Item.Number}" 
+                                           HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0 4 0 0"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGrid.RowHeaderTemplate>
+                    
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Native word" FontSize="16" Binding="{Binding NativeWord}" Foreground="Black"/>
+
+                        <DataGridComboBoxColumn Header="Native lang" SelectedItemBinding="{Binding NativeLang}" Width="100">
+                            <DataGridComboBoxColumn.ElementStyle>
+                                <Style TargetType="ComboBox">
+                                    <Setter Property="Margin" Value="4 2 0 0"/>
+                                    <Setter Property="ItemsSource" Value="{Binding Languages}"/>
+                                    <Setter Property="IsReadOnly" Value="True"/>
+                                    <Setter Property="ItemTemplate">
+                                        <Setter.Value>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Image Source="{Binding IconPath}" Width="16" Height="16" Margin="5 0 0 0"/>
+                                                    <TextBlock Text="{Binding Name}" Margin="5 0 5 0" Foreground="Gray"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </DataGridComboBoxColumn.ElementStyle>
+                            <DataGridComboBoxColumn.EditingElementStyle>
+                                <Style TargetType="ComboBox">
+                                    <Setter Property="ItemsSource" Value="{Binding Languages}"/>
+                                    <Setter Property="ItemTemplate">
+                                        <Setter.Value>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Image Source="{Binding IconPath}" Width="16" Height="16" Margin="5 0 0 0"/>
+                                                    <TextBlock Text="{Binding Name}" Margin="5 0 5 0" Foreground="Black"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </DataGridComboBoxColumn.EditingElementStyle>
+                        </DataGridComboBoxColumn>
+
+                        <DataGridTextColumn Header="Translated word" FontSize="16" Binding="{Binding TranslatedWord}" Foreground="Black"/>
+
+                        <DataGridComboBoxColumn Header="Translated lang" SelectedItemBinding="{Binding TranslatedLang}" Width="100">
+                            <DataGridComboBoxColumn.ElementStyle>
+                                <Style TargetType="ComboBox">
+                                    <Setter Property="Margin" Value="4 2 0 0"/>
+                                    <Setter Property="ItemsSource" Value="{Binding Languages}"/>
+                                    <Setter Property="IsReadOnly" Value="True"/>
+                                    <Setter Property="ItemTemplate">
+                                        <Setter.Value>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Image Source="{Binding IconPath}" Width="16" Height="16" Margin="5 0 0 0"/>
+                                                    <TextBlock Text="{Binding Name}" Margin="5 0 5 0" Foreground="Gray"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </DataGridComboBoxColumn.ElementStyle>
+                            <DataGridComboBoxColumn.EditingElementStyle>
+                                <Style TargetType="ComboBox">
+                                    <Setter Property="ItemsSource" Value="{Binding Languages}"/>
+                                    <Setter Property="ItemTemplate">
+                                        <Setter.Value>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Image Source="{Binding IconPath}" Width="16" Height="16" Margin="5 0 0 0"/>
+                                                    <TextBlock Text="{Binding Name}" Margin="5 0 5 0" Foreground="Black"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </DataGridComboBoxColumn.EditingElementStyle>
+                        </DataGridComboBoxColumn>
+
+                        <DataGridCheckBoxColumn Header="Two ways" Binding="{Binding TwoWays, Mode=TwoWay}" 
+                                                Width="70"/>
+                        
+                        <DataGridTextColumn Header="Repeatings" FontSize="16" Binding="{Binding Repeated}" 
+                                            Foreground="Gray" IsReadOnly="True" Width="70"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+        </TabControl>
+
+        <StackPanel Name="DictionarySettingsButtonsPanel" Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Margin="5 5 0 5" Visibility="Hidden">
+            <Button Content="Lingualeo" Width="95" Height="25" Margin="0 0 5 0" ToolTip="Add words using Lingualeo" Click="AddWordsUsingLingualeo"/>
+            <Button Content="Google" Width="95" Height="25" Margin="0 0 5 0" ToolTip="Add list of words using Google translate" Click="AddWordsUsingGoogleTranslate"/>
+        </StackPanel>
+        
+        <Button Content="Apply" Grid.Row="1" Width="95" Height="25" Margin="5 5 0 5" Grid.Column="1" Click="ApplyButtonClick"/>
+        <Button Content="OK" Grid.Row="1" Width="95" Height="25" Margin="5 5 0 5" Grid.Column="2" Click="OkButtonClick"/>
+        <Button Content="Cancel" Grid.Row="1" Width="95" Height="25" Margin="5 5 5 5" Grid.Column="3" Click="CancelButtonClick"/>
+    </Grid>
+</Window>

@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<CountriesConfig>
+  <Country ShortLanguageName="Rus" Picture="Resources/Countries/Russian Federation.png" Name="Русский"/>
+  
+  <Country ShortLanguageName="Eng" Picture="Resources/Countries/United Kingdom(Great Britain).png" Name="English"/>
+  <Country ShortLanguageName="Usa" Picture="Resources/Countries/United States of America (USA).png" Name="American English"/>
+  
+  <Country ShortLanguageName="Ger" Picture="Resources/Countries/Germany.png" Name="Deutsch"/>
+  <Country ShortLanguageName="Aus" Picture="Resources/Countries/Austria.png" Name="Österreichisches Deutsch"/>
+  <Country ShortLanguageName="Swi" Picture="Resources/Countries/Switzerland.png" Name="Schweizerhochdeutsch"/>
+  
+  <!--
+  <Country ShortLanguageName="Bel" Picture="Resources/Countries/Belarus.png" Name="Беларуская"/>
+  <Country ShortLanguageName="Cat" Picture="Resources/Countries/Catalonia.png" Name="Сatalà"/>
+  <Country ShortLanguageName="Chi" Picture="Resources/Countries/China.png" Name="漢語"/>
+  <Country ShortLanguageName="Ces" Picture="Resources/Countries/Czech Republic.png" Name="Čeština"/>
+  <Country ShortLanguageName="Dan" Picture="Resources/Countries/Denmark.png" Name="Dansk"/>
+  <Country ShortLanguageName="Est" Picture="Resources/Countries/Estonia.png" Name="Eesti"/>
+  <Country ShortLanguageName="Fra" Picture="Resources/Countries/France.png" Name="Français"/>
+  <Country ShortLanguageName="Geo" Picture="Resources/Countries/Georgia.png" Name="ქართული"/>
+  <Country ShortLanguageName="Ell" Picture="Resources/Countries/Greece.png" Name="Ελληνικά"/>
+  <Country ShortLanguageName="Hun" Picture="Resources/Countries/Hungary.png" Name="Magyar"/>
+  <Country ShortLanguageName="Heb" Picture="Resources/Countries/Israel.png" Name="עִבְרִית"/>
+  <Country ShortLanguageName="Ita" Picture="Resources/Countries/Italy.png" Name="Italiano"/>
+  <Country ShortLanguageName="Jpn" Picture="Resources/Countries/Japan.png" Name="日本語"/>
+  <Country ShortLanguageName="Lav" Picture="Resources/Countries/Latvia.png" Name="Latviešu"/>
+  <Country ShortLanguageName="Lit" Picture="Resources/Countries/LIthuania.png" Name="Lietuvių"/>
+  <Country ShortLanguageName="Pol" Picture="Resources/Countries/Poland.png" Name="Polszczyzna"/>
+  <Country ShortLanguageName="Por" Picture="Resources/Countries/Portugal.png" Name="Português"/>
+  <Country ShortLanguageName="Esl" Picture="Resources/Countries/Spain.png" Name="Español"/>
+  <Country ShortLanguageName="Ukr" Picture="Resources/Countries/Ukraine.png" Name="Українська"/>
+  -->
+</CountriesConfig>
