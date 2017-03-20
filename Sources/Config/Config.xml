@@ -6,6 +6,6 @@
     <DictionaryConfig Enabled="true" Name="English. A1 - B1.xml"/>
     <DictionaryConfig Enabled="true" Name="Deutsch. Starke Verben.xml"/>
     <DictionaryConfig Enabled="true" Name="Deutsch. A1.xml"/>
-	<DictionaryConfig Enabled="true" Name="Deutsch. B1.xml"/>
+	<DictionaryConfig Enabled="true" Name="Deutsch. A2.xml"/>
   </DictionariesConfig>
 </WorkConfig>
