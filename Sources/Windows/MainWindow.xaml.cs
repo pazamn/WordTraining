@@ -54,6 +54,7 @@ namespace WordTraining.Windows
             ContextMenu = contextMenu;
 
             MenuItem itIsLearnedItem = new MenuItem();
+            MenuItem showTranslationItem = new MenuItem();
             Separator separator1Item = new Separator();
             MenuItem showPreviousWordItem = new MenuItem();
             MenuItem showNextWordItem = new MenuItem();
@@ -66,6 +67,10 @@ namespace WordTraining.Windows
             itIsLearnedItem.Header = "I know this word!";
             itIsLearnedItem.Margin = new Thickness(5, 0, 0, 0);
             itIsLearnedItem.Click += WordLearnedButtonClick;
+
+            showTranslationItem.Header = "Show translation";
+            showTranslationItem.Margin = new Thickness(5, 0, 0, 0);
+            showTranslationItem.Click += OnShowTranslationItemClick;
 
             showPreviousWordItem.Header = "Show previous word";
             showPreviousWordItem.Margin = new Thickness(5, 0, 0, 0);
@@ -88,6 +93,7 @@ namespace WordTraining.Windows
             closeItem.Click += CloseButtonClick;
 
             contextMenu.Items.Add(itIsLearnedItem);
+            contextMenu.Items.Add(showTranslationItem);
             contextMenu.Items.Add(separator1Item);
             contextMenu.Items.Add(showPreviousWordItem);
             contextMenu.Items.Add(showNextWordItem);
@@ -114,10 +120,10 @@ namespace WordTraining.Windows
         {
             try
             {
-                object windowLeftObject = Registry.LocalMachine.GetValue("SOFTWARE\\Pazamn\\WordTraining\\WindowTopPosition");
-                object windowTopObject = Registry.LocalMachine.GetValue("SOFTWARE\\Pazamn\\WordTraining\\WindowLeftPosition");
-                object windowWidthObject = Registry.LocalMachine.GetValue("SOFTWARE\\Pazamn\\WordTraining\\WindowWidth");
-                object windowHeightObject = Registry.LocalMachine.GetValue("SOFTWARE\\Pazamn\\WordTraining\\WindowHeight");
+                object windowLeftObject = Registry.CurrentUser.GetValue($@"SOFTWARE\\{Environment.UserName}\\WordTraining\\WindowTopPosition");
+                object windowTopObject = Registry.CurrentUser.GetValue($@"SOFTWARE\\{Environment.UserName}\\WordTraining\\WindowLeftPosition");
+                object windowWidthObject = Registry.CurrentUser.GetValue($@"SOFTWARE\\{Environment.UserName}\\WordTraining\\WindowWidth");
+                object windowHeightObject = Registry.CurrentUser.GetValue($@"SOFTWARE\\{Environment.UserName}\\WordTraining\\WindowHeight");
 
                 if (windowLeftObject == null || windowTopObject == null || windowWidthObject == null || windowHeightObject == null)
                 {
@@ -270,10 +276,10 @@ namespace WordTraining.Windows
         {
             try
             {
-                Registry.LocalMachine.SetValue("SOFTWARE\\Pazamn\\WordTraining\\WindowTopPosition", Left.ToString("F0"));
-                Registry.LocalMachine.SetValue("SOFTWARE\\Pazamn\\WordTraining\\WindowLeftPosition", Top.ToString("F0"));
-                Registry.LocalMachine.SetValue("SOFTWARE\\Pazamn\\WordTraining\\WindowWidth", Width.ToString("F0"));
-                Registry.LocalMachine.SetValue("SOFTWARE\\Pazamn\\WordTraining\\WindowHeight", Height.ToString("F0"));
+                Registry.CurrentUser.SetValue($@"SOFTWARE\\{Environment.UserName}\\WordTraining\\WindowTopPosition", Left.ToString("F0"));
+                Registry.CurrentUser.SetValue($@"SOFTWARE\\{Environment.UserName}\\WordTraining\\WindowLeftPosition", Top.ToString("F0"));
+                Registry.CurrentUser.SetValue($@"SOFTWARE\\{Environment.UserName}\\WordTraining\\WindowWidth", Width.ToString("F0"));
+                Registry.CurrentUser.SetValue($@"SOFTWARE\\{Environment.UserName}\\WordTraining\\WindowHeight", Height.ToString("F0"));
             }
             catch (Exception e)
             {
@@ -395,10 +401,7 @@ namespace WordTraining.Windows
 
         public WordInfo WordInfo
         {
-            get
-            {
-                return _wordInfo;
-            }
+            get { return _wordInfo; }
             set
             {
                 _wordInfo = value;
@@ -422,12 +425,14 @@ namespace WordTraining.Windows
             }
 
             Action action = delegate
-                {
-                    string translatedWord = App.ShowingWord.NativeWord == NativeWordTextBlock.Text ? App.ShowingWord.TranslatedWord : App.ShowingWord.NativeWord;
-                    TranslatedWordTextBlock.Text = translatedWord;
+            {
+                string translatedWord = App.ShowingWord.NativeWord == NativeWordTextBlock.Text
+                    ? App.ShowingWord.TranslatedWord
+                    : App.ShowingWord.NativeWord;
 
-                    WindowSizeChanged(null, new EventArgs());
-                };
+                TranslatedWordTextBlock.Text = translatedWord;
+                WindowSizeChanged(null, new EventArgs());
+            };
 
             Dispatcher.Invoke(DispatcherPriority.Send, action);
         }
@@ -555,6 +560,31 @@ namespace WordTraining.Windows
             {
                 throw new Exception("Failed to update progress bar. " + e.Message);
             }
+        }
+
+        private void OnShowTranslationItemClick(object sender, RoutedEventArgs routedEventArgs)
+        {
+            DictionaryWordShowTranslation(null, new EventArgs());
+        }
+        
+        private void OnNativeWordTextBlockMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            DictionaryWordShowTranslation(null, new EventArgs());
+        }
+
+        private void OnTranslatedWordTextBlockMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            DictionaryWordShowTranslation(null, new EventArgs());
+        }
+
+        private void OnNativeWordImageMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            DictionaryWordShowTranslation(null, new EventArgs());
+        }
+
+        private void OnTranslatedWordImageMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            DictionaryWordShowTranslation(null, new EventArgs());
         }
 
         #endregion Word Changing

@@ -20,11 +20,15 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Name="NativeWordTextBlock" FontSize="14" Margin="5 5 5 5" Grid.Column="0" Grid.Row="0" Background="AntiqueWhite"/>
-        <TextBlock Name="TranslatedWordTextBlock" FontSize="14" Margin="5 5 5 5" Grid.Column="0" Grid.Row="1" Background="AliceBlue"/>
+        <TextBlock Name="NativeWordTextBlock" FontSize="14" Margin="5 5 5 5" Grid.Column="0" Grid.Row="0" Background="AntiqueWhite"
+                   PreviewMouseLeftButtonUp="OnNativeWordTextBlockMouseLeftButtonUp"/>
+        <TextBlock Name="TranslatedWordTextBlock" FontSize="14" Margin="5 5 5 5" Grid.Column="0" Grid.Row="1" Background="AliceBlue" 
+                   PreviewMouseLeftButtonUp="OnTranslatedWordTextBlockMouseLeftButtonUp"/>
                    
-        <Image Name="NativeWordImage" Margin="5 5 5 5" Grid.Column="1" Grid.Row="0" Width="32" Height="32"/>
-        <Image Name="TranslatedWordImage" Margin="5 5 5 5" Grid.Column="1" Grid.Row="1" Width="32" Height="32"/>
+        <Image Name="NativeWordImage" Margin="5 5 5 5" Grid.Column="1" Grid.Row="0" Width="32" Height="32"
+               PreviewMouseLeftButtonUp="OnNativeWordImageMouseLeftButtonUp"/>
+        <Image Name="TranslatedWordImage" Margin="5 5 5 5" Grid.Column="1" Grid.Row="1" Width="32" Height="32"
+               PreviewMouseLeftButtonUp="OnTranslatedWordImageMouseLeftButtonUp"/>
 
         <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Height="1" Background="Black" BorderBrush="Black" BorderThickness="1" Margin="0 0 0 0"/>
 
