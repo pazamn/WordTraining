@@ -263,15 +263,15 @@ namespace WordTraining.Logic.DictionariesLogic
                     {
                         savingElement = doc.CreateElement("Word");
 
+                        savingElement.SetAttribute("Learnt", savingWord.Learnt.ToString(CultureInfo.InvariantCulture));
+                        savingElement.SetAttribute("Repeated", savingWord.Repeated.ToString(CultureInfo.InvariantCulture));
+                        savingElement.SetAttribute("TwoWays", savingWord.TwoWays.ToString());
+
                         savingElement.SetAttribute("NativeLang", savingWord.NativeLang.Alias);
                         savingElement.SetAttribute("NativeWord", savingWord.NativeWord);
 
                         savingElement.SetAttribute("TranslatedLang", savingWord.TranslatedLang.Alias);
                         savingElement.SetAttribute("TranslatedWord", savingWord.TranslatedWord);
-
-                        savingElement.SetAttribute("Learnt", savingWord.Learnt.ToString(CultureInfo.InvariantCulture));
-                        savingElement.SetAttribute("Repeated", savingWord.Repeated.ToString(CultureInfo.InvariantCulture));
-                        savingElement.SetAttribute("TwoWays", savingWord.TwoWays.ToString());
 
                         XmlElement wordsRootElement = doc.LastChild as XmlElement;
                         if (wordsRootElement != null)

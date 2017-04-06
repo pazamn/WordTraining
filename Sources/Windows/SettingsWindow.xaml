@@ -85,7 +85,7 @@
 
             <TabItem Name="DictionarySettingsTabItem" Header="Dictionary settings" Visibility="Hidden">
                 <DataGrid Name="WordsDataGrid" AutoGenerateColumns="False" ItemsSource="{Binding}" 
-                          CanUserAddRows="True"  CanUserResizeRows="False" SelectionMode="Single" SelectionUnit="FullRow" 
+                          CanUserAddRows="True"  CanUserResizeRows="False" SelectionMode="Extended" SelectionUnit="FullRow" 
                           BorderThickness="0" ColumnWidth="*" ColumnHeaderHeight="30" 
                           AddingNewItem="WordsDataGridAddingNewItem" AlternatingRowBackground="OldLace"
                           GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="DarkGray">
@@ -102,6 +102,14 @@
                             </StackPanel>
                         </DataTemplate>
                     </DataGrid.RowHeaderTemplate>
+                    
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Navigate to next not nranslated Word" Click="OnNavigateToNextNotTranslatedWordMenuItemClick"/>
+                            <MenuItem Header="Copy Native Words" Click="OnCopyNativeWordsMenuItemClick"/>
+                            <MenuItem Header="Past Translations" Click="OnPasteTranslationsMenuItemClick"/>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
                     
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Native word" FontSize="16" Binding="{Binding NativeWord}" Foreground="Black"/>

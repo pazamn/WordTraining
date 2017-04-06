@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -15,6 +16,7 @@ using WordTraining.Config;
 using WordTraining.Logic.DictionariesLogic;
 using WordTraining.Logic.Services;
 using Button = System.Windows.Controls.Button;
+using Clipboard = System.Windows.Clipboard;
 using DataGrid = System.Windows.Controls.DataGrid;
 using HtmlDocument = HtmlAgilityPack.HtmlDocument;
 using MessageBox = System.Windows.MessageBox;
@@ -603,5 +605,52 @@ namespace WordTraining.Windows
         }
 
         #endregion OK Cancel Buttons Actions
+
+        #region Copy/paste translations
+
+        private void OnNavigateToNextNotTranslatedWordMenuItemClick(object sender, RoutedEventArgs e)
+        {
+            var words = WordsDataGrid.DataContext.Of<IEnumerable>().OfType<WordInfo>().ToList();
+
+            var selectedWord = WordsDataGrid.SelectedItems.OfType<WordInfo>().FirstOrDefault();
+            var offset = selectedWord != null ? words.IndexOf(selectedWord) + 1 : 0;
+
+            var firstNotTranslatedWord = words.Skip(offset).FirstOrDefault(x => string.IsNullOrEmpty(x.TranslatedWord));
+            if (firstNotTranslatedWord == null)
+            {
+                MessageBox.Show("No more not translated words");
+                return;
+            }
+
+            WordsDataGrid.ScrollIntoView(firstNotTranslatedWord);
+            WordsDataGrid.SelectedItem = firstNotTranslatedWord;
+        }
+
+        private void OnCopyNativeWordsMenuItemClick(object sender, RoutedEventArgs e)
+        {
+            var words = WordsDataGrid.SelectedItems.OfType<WordInfo>();
+            var text = string.Join("\r\n", words.Select(x => x.NativeWord));
+            Clipboard.SetText(text);
+        }
+
+        private void OnPasteTranslationsMenuItemClick(object sender, RoutedEventArgs e)
+        {
+            var text = Clipboard.GetText();
+            var lines = text.Split('\n').Select(x => x.Trim('\r').Trim()).ToList();
+
+            var selectedWords = WordsDataGrid.SelectedItems.OfType<WordInfo>().ToList();
+            if (selectedWords.Count != lines.Count)
+            {
+                MessageBox.Show("Count of pasted translations is not equal to selected rows.", "Translations are not valid", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            for (var i = 0; i < lines.Count; i++)
+            {
+                selectedWords[i].TranslatedWord = lines[i];
+            }
+        }
+
+        #endregion Copy/paste translations
     }
 }

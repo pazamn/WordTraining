@@ -2,16 +2,31 @@
 using System.Diagnostics;
 using System.Linq;
 using WordTraining.Config;
+using WordTraining.Logic.BaseClasses;
 using WordTraining.Windows;
 
 namespace WordTraining.Logic.DictionariesLogic
 {
     [DebuggerDisplay("{DictonaryName} {NativeLang}-{TranslatedLang} L:{Learnt} R:{Repeated} {NativeWord}-{TranslatedWord}")]
-    public class WordInfo
+    public class WordInfo : NotificationObject
     {
-        #region Common Dictionary Properties
+        #region Private Fields and Initialization
+
+        private LanguageConfig _nativeLang;
+        private LanguageConfig _translationLang;
+        private string _nativeWord;
+        private string _translationWord;
+        private bool _twoWays;
+        private int _repeated;
+        private int _learned;
+
+        #endregion Private Fields and Initialization
+
+        #region Public Properties
 
         public string DictonaryName { get; set; }
+
+        public DictionaryInfo Parent { get; set; }
 
         public int DictonaryLearntWordsCount
         {
@@ -20,28 +35,13 @@ namespace WordTraining.Logic.DictionariesLogic
 
         public int DictonaryTotalWordsCount
         {
-            get { return Parent.Words.Count(); }
+            get { return Parent.Words.Count; }
         }
 
-        #endregion Common Dictionary Properties
-
-        #region Current Word Properties
-        
-        public LanguageConfig NativeLang { get; set; }
-        public string NativeWord { get; set; }
-
-        public LanguageConfig TranslatedLang { get; set; }
-        public string TranslatedWord { get; set; }
-
-        public bool TwoWays { get; set; }
-        public int Repeated { get; set; }
-        public int Learnt { get; set; }
-        
-        #endregion Current Word Properties
-
-        #region Current Word Number
-
-        public DictionaryInfo Parent { get; set; } 
+        public List<LanguageConfig> Languages
+        {
+            get { return App.CountriesConfig; }
+        }
 
         public int Number
         {
@@ -56,15 +56,48 @@ namespace WordTraining.Logic.DictionariesLogic
             }
         }
 
-        #endregion Current Word Number
-
-        #region All Supported Languages List
-
-        public List<LanguageConfig> Languages
+        public LanguageConfig NativeLang
         {
-            get { return App.CountriesConfig; }
+            get { return _nativeLang; }
+            set { SetField(ref _nativeLang, value, nameof(NativeLang)); }
         }
 
-        #endregion All Supported Languages List
+        public string NativeWord
+        {
+            get { return _nativeWord; }
+            set { SetField(ref _nativeWord, value, nameof(NativeWord)); }
+        }
+
+        public LanguageConfig TranslatedLang
+        {
+            get { return _translationLang; }
+            set { SetField(ref _translationLang, value, nameof(TranslatedLang)); }
+        }
+
+        public string TranslatedWord
+        {
+            get { return _translationWord; }
+            set { SetField(ref _translationWord, value, nameof(TranslatedWord)); }
+        }
+
+        public bool TwoWays
+        {
+            get { return _twoWays; }
+            set { SetField(ref _twoWays, value, nameof(TwoWays)); }
+        }
+
+        public int Repeated
+        {
+            get { return _repeated; }
+            set { SetField(ref _repeated, value, nameof(Repeated)); }
+        }
+
+        public int Learnt
+        {
+            get { return _learned; }
+            set { SetField(ref _learned, value, nameof(Learnt)); }
+        }
+
+        #endregion Public Properties
     }
 }
